@@ -4,7 +4,7 @@ const buildPath = path.resolve(__dirname, 'build');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 
 const config = {
-    entry: [path.resolve(__dirname, 'app/main.js'),
+    entry: [path.resolve(__dirname, 'app/src/router.jsx'),
         'webpack/hot/dev-server',
         'webpack-dev-server/client?http://localhost:8080',
     ],
@@ -26,6 +26,9 @@ const config = {
         }, {
             test: /\.less$/,
             loader: 'css-loader!less-loader'
+        }, {
+            test: /\.json$/,
+            loader: "json-loader"
         }]
     },
     plugins: [
