@@ -3,6 +3,7 @@ import {render} from 'react-dom';
 import {Router,Route,hashHistory,Link,IndexRoute} from 'react-router';
 import Hello from './hello.jsx';
 
+
 class App extends React.Component{
 	render(){
 			return (
@@ -11,6 +12,7 @@ class App extends React.Component{
 			        <ul>
 			          <li><Link to="/about">About</Link></li>
 			          <li><Link to="/hello">Hello</Link></li>
+			           <li><Link to="/todo">Todo</Link></li>
 			        </ul>
 			        {this.props.children}
 				</div>
@@ -42,6 +44,7 @@ render((<Router history={hashHistory}>
 	<Route path="/" component={App}>
 		<IndexRoute component={Index} /> 
 		<Route path="/hello" component={Hello} /> 
+			
 		<Route path="/about" component={About} > 
 			<Route path="/message/:id" component={Message} />
 		</Route>

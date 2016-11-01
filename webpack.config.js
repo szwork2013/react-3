@@ -4,10 +4,10 @@ const buildPath = path.resolve(__dirname, 'build');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 
 const config = {
-    entry: [path.resolve(__dirname, 'app/src/router.jsx'),
-        'webpack/hot/dev-server',
-        'webpack-dev-server/client?http://localhost:8080',
-    ],
+    entry: {
+        app: path.resolve(__dirname, './app/main.jsx'),
+        vendors: ['react', 'reflux', 'react-mixin']
+    },
     output: {
         path: buildPath,
         filename: 'build.js',
@@ -46,13 +46,15 @@ const config = {
             },
         }),
         // Allows error warnings but does not stop compiling.
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
 
     ],
     resolve: {
         modulesDirectories: ['node_modules', path.join(__dirname, 'node_modules')],
         extensions: ['', '.web.js', '.js', '.json'],
-    }
+    },
+    devtool: 'source-map',
 };
 
 module.exports = config;
