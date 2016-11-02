@@ -4,7 +4,7 @@ import {Router, Route, hashHistory, Link, IndexRoute} from 'react-router';
 import Hello from './src/hello.jsx';
 import Index from './src/index.js';
 import TabBarExp from './src/tabbarexp.jsx';
-
+import './src/static/style';
 
 export default class App extends React.Component {
     render() {
