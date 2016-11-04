@@ -1,8 +1,8 @@
 import React from 'react';
 import Reflux from 'reflux';
 import ReactMixin from 'react-mixin';
-import actions from './actions.js';
-import store from './store.js';
+import actions from './actions/actions.js';
+import store from './stores/store.js';
 export default class Todo extends React.Component {
 
         componentDidMount() {

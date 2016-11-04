@@ -1,9 +1,10 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Router, Route, hashHistory, Link, IndexRoute} from 'react-router';
-import Hello from './src/hello.jsx';
 import Index from './src/index.js';
-import TabBarExp from './src/tabbarexp.jsx';
+import List from './src/list.jsx'
+import Choose from './src/choose.jsx';
+import Todo from './src/todo.jsx';
 import './src/static/style';
 
 export default class App extends React.Component {
@@ -12,9 +13,11 @@ export default class App extends React.Component {
         }
 }
 
-render(( < Router history={ hashHistory }>
+render((< Router history={ hashHistory }>
        < Route path="/" component={ App }>
-         < IndexRoute component = { Index }/>
-        </Route>
-    </Router > ), document.getElementById('react-content'))
+         < IndexRoute component = { Choose }/>
+         <Route path="index" component={Index} />
+         <Route path="list" component={List} />
+       </Route>
+       </Router > ), document.getElementById('react-content'))
 

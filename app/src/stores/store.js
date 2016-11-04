@@ -1,22 +1,11 @@
 import Reflux from 'reflux';
 import React from 'react';
-import Actions from './actions.js';
-
-//给数组添加remove方法，用于去除指定下标的元素
-Array.prototype.remove = function(dx) {
-    if (isNaN(dx) || dx > this.length) {
-        return false;
-    }
-    for (var i = 0, n = 0; i < this.length; i++) {
-        if (this[i] != this[dx]) {
-            this[n++] = this[i]
-        }
-    }
-    this.length -= 1
-};
+import Actions from './../actions/actions.js';
+import $ from 'jquery';
 
 export default Reflux.createStore({
     items: [],
+
     //监听所有的actions
     listenables: [Actions],
     //on开头的都是action触发后的回调函数
@@ -43,5 +32,15 @@ export default Reflux.createStore({
     onRemove(i) {
         this.items.remove(i);
         this.trigger({ list: this.items });
+    },
+    onGetStores(){
+        var t = this;
+        this.trigger({list:{"msg":"ok","code":"0","work_depart":"0000","lists":[{"code":"0000","name":"总部"},{"code":"0001","name":"配送中心"},{"code":"0003","name":"西亚生活广场"},{"code":"1001","name":"西亚平桥店"}]}})
+  /*      $.post('http://192.168.4.120/service/app/bhmis/gateway.jsp',
+            { service: 'user.getorgans',
+            userid: '0002'},
+        function(response){
+            t.trigger({ list: response.lists });
+        });*/
     }
 })

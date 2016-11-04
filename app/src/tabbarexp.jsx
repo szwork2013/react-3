@@ -1,7 +1,6 @@
 import { TabBar } from 'antd-mobile';
 import React from 'react';
-import ReactDOM from 'react-dom';
-
+import GridExp from './gridexp.jsx';
 export default class  TabBarExp extends  React.Component{
     constructor(props) {
         super(props);
@@ -15,14 +14,12 @@ export default class  TabBarExp extends  React.Component{
             <div style={{ backgroundColor: 'white', textAlign: 'center' }}>
                 <div style={{ paddingTop: 60 }}>你已点击“{pageText}” tab， 当前展示“{pageText}”信息</div>
                 <a style={{ display: 'block', marginTop: 40 }} onClick={(e) => {
-          e.preventDefault();
-          this.setState({
-            hidden: !this.state.hidden,
-          });
-        }}
-                >
-                    点击切换 tab-bar 显示/隐藏
-                </a>
+                 e.preventDefault();
+                 this.setState({
+                    hidden: !this.state.hidden,
+                 });
+                }}>点击切换 tab-bar 显示/隐藏</a>
+                <GridExp/>
             </div>
         );
     }
