@@ -1,6 +1,10 @@
 import React from 'react';
 import { ListView } from 'antd-mobile';
-
+import store from './stores/store.js';
+import actions from './actions/actions.js';
+import Reflux from 'reflux';
+import {Router, Route, hashHistory, Link, IndexRoute,browserHistory} from 'react-router';
+import { NavBar, Icon } from 'antd-mobile';
 const data = [
     {
         img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
@@ -26,6 +30,7 @@ let pageIndex = 0;
 
 const List = React.createClass({
     getInitialState() {
+
         const getSectionData = (dataBlob, sectionID) => dataBlob[sectionID];
         const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
 
@@ -64,6 +69,7 @@ const List = React.createClass({
         };
     },
 
+
     onEndReached(event) {
         // load new data
         console.log('reach end', event);
@@ -78,6 +84,7 @@ const List = React.createClass({
     },
 
     render() {
+        console.log(this.props.params.id);
         const separator = (sectionID, rowID) => (
             <div key={`${sectionID}-${rowID}`} style={{
                 backgroundColor: '#F5F5F9',
@@ -113,6 +120,9 @@ const List = React.createClass({
             );
         };
         return (<div style={{ margin: '0 auto', width: '96%' }}>
+            <div id="nav">
+                <NavBar leftContent="返回" mode="light" onLeftClick={() => {browserHistory.goBack('');}}></NavBar><div style={{ height: 16 }} />
+            </div>
             <ListView
                 dataSource={this.state.dataSource}
                 renderHeader={() => <span>header</span>}

@@ -33,6 +33,7 @@ export default Reflux.createStore({
         this.items.remove(i);
         this.trigger({ list: this.items });
     },
+
     onGetStores(){
         var t = this;
         this.trigger({list:{"msg":"ok","code":"0","work_depart":"0000","lists":[{"code":"0000","name":"总部"},{"code":"0001","name":"配送中心"},{"code":"0003","name":"西亚生活广场"},{"code":"1001","name":"西亚平桥店"}]}})

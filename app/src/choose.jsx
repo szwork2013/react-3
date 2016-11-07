@@ -1,4 +1,4 @@
-import { List, Radio ,Button,WhiteSpace, WingBlank,Flex } from 'antd-mobile';
+import { List, Radio ,Button,WhiteSpace, WingBlank,Flex,Toast } from 'antd-mobile';
 import React from 'react';
 import Reflux from 'reflux';
 import ReactMixin from 'react-mixin';
@@ -25,12 +25,15 @@ export default class Choose extends React.Component{
                 value: 1
             }
         }
-      console.log(item);
     }
 
     handleClick(e){
-        console.log(e);
-        this.context.router.push("index")
+        if(this.state.value==-1){
+            Toast.fail('请选择门店', 1);
+            return ;
+        }
+        var value = this.state.value;
+        this.context.router.push("index/"+value);
     }
     render() {
         let items = [];
@@ -42,7 +45,6 @@ export default class Choose extends React.Component{
                     checked={this.state.value === item.code}
                     onChange={(e) => {
                         if (e.target.checked) {
-
                             this.setState({ value: item.code });
                         }
                     }}
