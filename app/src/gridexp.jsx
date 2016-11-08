@@ -61,7 +61,7 @@ export default class GridExp extends  React.Component{
         return (<div>
             <Grid
                 data={data}
-                hasLine={false}
+                hasLine={true}
                 onClick={t.handleRoute.bind(this)}
                 isCarousel
             />

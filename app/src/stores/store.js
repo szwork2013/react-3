@@ -1,7 +1,6 @@
 import Reflux from 'reflux';
 import React from 'react';
 import Actions from './../actions/actions.js';
-import $ from 'jquery';
 
 export default Reflux.createStore({
     items: [],

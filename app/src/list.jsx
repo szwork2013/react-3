@@ -1,10 +1,15 @@
 import React from 'react';
-import { ListView } from 'antd-mobile';
+import { ListView ,Tabs, WhiteSpace } from 'antd-mobile';
 import store from './stores/store.js';
 import actions from './actions/actions.js';
 import Reflux from 'reflux';
 import {Router, Route, hashHistory, Link, IndexRoute,browserHistory} from 'react-router';
 import { NavBar, Icon } from 'antd-mobile';
+
+const TabPane = Tabs.TabPane;
+function callback(key) {
+    console.log(key);
+}
 const data = [
     {
         img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
@@ -22,11 +27,39 @@ const data = [
         des: '不是所有的兼职汪都需要风吹日晒',
     },
 ];
-let index = data.length - 1;
+let index =  .length - 1;
 
-const NUM_SECTIONS = 5;
-const NUM_ROWS_PER_SECTION = 5;
+const NUM_SECTIONS = 3;
+const NUM_ROWS_PER_SECTION = 3;
 let pageIndex = 0;
+
+const tabexp = React.createClass({
+    render() {
+        console.log(this.props.params.id);
+        return (
+            <div>
+            <div id="nav">
+                <NavBar leftContent="返回" mode="light" onLeftClick={() => {browserHistory.goBack('');}}></NavBar><div style={{ height: 16 }} />
+            </div>
+                <Tabs defaultActiveKey="1"  animated={false} onChange={callback}>
+                    <TabPane tab="待我审批" key="1">
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                            <List></List>
+                        </div>
+                    </TabPane>
+                    <TabPane tab="已经审批" key="2">
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                            选项卡二内容
+                        </div>
+                    </TabPane>
+                </Tabs>
+                <WhiteSpace />
+            </div>
+        );
+    },
+});
+
+
 
 const List = React.createClass({
     getInitialState() {
@@ -59,6 +92,7 @@ const List = React.createClass({
                 }
             }
             // new object ref
+
             this.sectionIDs = [].concat(this.sectionIDs);
             this.rowIDs = [].concat(this.rowIDs);
         };
@@ -84,7 +118,7 @@ const List = React.createClass({
     },
 
     render() {
-        console.log(this.props.params.id);
+
         const separator = (sectionID, rowID) => (
             <div key={`${sectionID}-${rowID}`} style={{
                 backgroundColor: '#F5F5F9',
@@ -98,6 +132,7 @@ const List = React.createClass({
             if (index < 0) {
                 index = data.length - 1;
             }
+            console.log(rowData);
             const obj = data[index--];
             return (
                 <div key={rowID}
@@ -119,13 +154,9 @@ const List = React.createClass({
                 </div>
             );
         };
-        return (<div style={{ margin: '0 auto', width: '96%' }}>
-            <div id="nav">
-                <NavBar leftContent="返回" mode="light" onLeftClick={() => {browserHistory.goBack('');}}></NavBar><div style={{ height: 16 }} />
-            </div>
+        return (<div style={{ margin: '0 auto', width: '100%' }}>
             <ListView
                 dataSource={this.state.dataSource}
-                renderHeader={() => <span>header</span>}
                 renderFooter={() => <div style={{ padding: 30, textAlign: 'center' }}>
                     {this.state.isLoading ? '加载中...' : '加载完毕'}
                 </div>}
@@ -151,4 +182,4 @@ const List = React.createClass({
         </div>);
     },
 });
-module.exports = List;
+module.exports = tabexp;
