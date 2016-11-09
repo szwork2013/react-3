@@ -4,6 +4,7 @@ import Actions from './../actions/actions.js';
 
 export default Reflux.createStore({
     items: [],
+    dataList:[],
 
     //监听所有的actions
     listenables: [Actions],
@@ -42,5 +43,22 @@ export default Reflux.createStore({
         function(response){
             t.trigger({ list: response.lists });
         });*/
+    },
+    onGetList(start,end){
+        var data = [{code:"0000",name:"总部"},{code:"0001",name:"配送中心"},{code:"0003",name:"西亚生活广场"},{code:"1001",name:"光山"},{code:"0000",name:"罗山"},{code:"0001",name:"息县"},{code:"0003",name:"安陆"},{code:"1001",name:"广水"}];
+        var data2 = [{code:"0000",name:"总部2"},{code:"0001",name:"配送中心2"},{code:"0003",name:"西亚生活广场2"},{code:"1001",name:"光山2"},{code:"0000",name:"罗山2"},{code:"0001",name:"息县2"},{code:"0003",name:"安陆2"},{code:"1001",name:"广水2"}];
+        if(end ==2){
+            this.trigger({list:data2})
+        }else{
+            this.trigger({list:data})
+        }
+
+        console.log(start+'=='+end)
+        /*      $.post('http://192.168.4.120/service/app/bhmis/gateway.jsp',
+         { service: 'user.getorgans',
+         userid: '0002'},
+         function(response){
+         t.trigger({ list: response.lists });
+         });*/
     }
 })

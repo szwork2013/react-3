@@ -2,6 +2,7 @@ import React from 'react';
 import { ListView ,Tabs, WhiteSpace } from 'antd-mobile';
 import store from './stores/store.js';
 import actions from './actions/actions.js';
+import ReactMixin from 'react-mixin';
 import Reflux from 'reflux';
 import {Router, Route, hashHistory, Link, IndexRoute,browserHistory} from 'react-router';
 import { NavBar, Icon } from 'antd-mobile';
@@ -27,10 +28,10 @@ const data = [
         des: '不是所有的兼职汪都需要风吹日晒',
     },
 ];
-let index =  .length - 1;
+let index = data.length - 1;
 
-const NUM_SECTIONS = 3;
-const NUM_ROWS_PER_SECTION = 3;
+const NUM_SECTIONS = 1;
+const NUM_ROWS_PER_SECTION = 8;
 let pageIndex = 0;
 
 const tabexp = React.createClass({
@@ -95,6 +96,7 @@ const List = React.createClass({
 
             this.sectionIDs = [].concat(this.sectionIDs);
             this.rowIDs = [].concat(this.rowIDs);
+            actions.getList(pIndex * NUM_SECTIONS,(pIndex+1) * NUM_SECTIONS);
         };
         this.genData();
         return {
@@ -104,17 +106,17 @@ const List = React.createClass({
     },
 
 
+
+
     onEndReached(event) {
         // load new data
         console.log('reach end', event);
         this.setState({ isLoading: true });
-        setTimeout(() => {
-            this.genData(++pageIndex);
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),
-                isLoading: false,
-            });
-        }, 1000);
+        this.genData(++pageIndex);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),
+            isLoading: false,
+        });
     },
 
     render() {
@@ -132,8 +134,36 @@ const List = React.createClass({
             if (index < 0) {
                 index = data.length - 1;
             }
-            console.log(rowData);
-            const obj = data[index--];
+            let sec = rowData.split(',')[0].substring(1);
+            let row = rowData.split(',')[1].substring(2);
+            let data;
+            let obj;
+            if (this.state.ListData != null) {
+                data = this.state.ListData.list;
+                obj = data[row];
+                return (
+                    <div key={rowID}
+                         style={{
+                             padding: '8px 16px',
+                             backgroundColor: 'white',
+                             fontSize: '1.8em',
+                         }}
+                    >
+                        <h3 style={{ padding: 2, marginBottom: 8, borderBottom: '1px solid #F6F6F6' }}>
+                            {obj.code}
+                        </h3>
+                        <div style={{ display: '-webkit-box', display: 'flex' }}>
+                            {/* <img style={{ height: 64 * (window.viewportScale || 1), marginRight: 8 }} src={obj.img} />*/}
+                            <div style={{ display: 'inline-block' }}>
+                                <p>{obj.name}</p>
+                                <p>{/*<span style={{ fontSize: '1.6em', color: '#FF6E27' }}>35</span>元/任务*/}</p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+
             return (
                 <div key={rowID}
                      style={{
@@ -141,16 +171,6 @@ const List = React.createClass({
                          backgroundColor: 'white',
                      }}
                 >
-                    <h3 style={{ padding: 2, marginBottom: 8, borderBottom: '1px solid #F6F6F6' }}>
-                        {obj.title}
-                    </h3>
-                    <div style={{ display: '-webkit-box', display: 'flex' }}>
-                        <img style={{ height: 64 * (window.viewportScale || 1), marginRight: 8 }} src={obj.img} />
-                        <div style={{ display: 'inline-block' }}>
-                            <p>{obj.des}</p>
-                            <p><span style={{ fontSize: '1.6em', color: '#FF6E27' }}>35</span>元/任务</p>
-                        </div>
-                    </div>
                 </div>
             );
         };
@@ -160,9 +180,7 @@ const List = React.createClass({
                 renderFooter={() => <div style={{ padding: 30, textAlign: 'center' }}>
                     {this.state.isLoading ? '加载中...' : '加载完毕'}
                 </div>}
-                renderSectionHeader={(sectionData) => (
-                    <div>{`任务 ${sectionData.split(' ')[1]}`}</div>
-                )}
+
                 renderRow={row}
                 renderSeparator={separator}
                 className="fortest"
@@ -172,14 +190,18 @@ const List = React.createClass({
                     border: '1px solid #ddd',
                     margin: '10px 0',
                 }}
+                renderSectionHeader={(sectionData) => (
+                    <div>{`条数 ${sectionData.split(' ')[1]}`}</div>
+                )}
                 pageSize={4}
                 scrollRenderAheadDistance={500}
                 scrollEventThrottle={20}
                 onScroll={() => { console.log('scroll'); }}
                 onEndReached={this.onEndReached}
-                onEndReachedThreshold={10}
+                onEndReachedThreshold={5}
             />
         </div>);
     },
 });
+ReactMixin.onClass(List, Reflux.connect(store, 'ListData'));
 module.exports = tabexp;
